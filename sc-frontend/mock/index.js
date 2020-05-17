@@ -1,38 +1,20 @@
 export default {
-    'GET /api/user': {
-        username: 'admin',
-        sex: 5,
-    },
-    'GET /api/list': function (req, res) {
-        let query = req.query || {};
-        return res.json({
-            limit: query.limit,
-            offset: query.offset,
-            list: [{
-                username: 'admin1',
-                sex: 1,
-            }, {
-                username: 'admin2',
-                sex: 0,
-            }]
-        })
-    },
-    'GET /api/userinfo/:id': (req, res) => {
-        return res.json({
-            id: req.params.id,
-            username: 'kenny',
-        });
-    },
-    'POST /api/login/account': (req, res) => {
+    'POST /api/user/login': (req, res) => {
         const { password, username } = req.body;
-        if (password === '888888' && username === 'admin') {
+        if (password === 'admin' && username === 'admin') {
             return res.json({
-                status: 'ok',
-                token: 'sdfsdfsdfdsf',
+                user: {
+                    uid: '123',
+                    name: "林风",
+                    major: 'CS',
+                    token: 'sdfsdfsdfdsf',
+                },
+                status: "login pass",
+                code: 200
             });
         } else {
             return res.json({
-                status: 'error',
+                status: 'password wrong',
                 code: 403,
             });
         }

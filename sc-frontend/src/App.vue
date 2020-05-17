@@ -7,13 +7,13 @@
 <script>
 export default {
   name: 'app',
+  data(){
+    return {
+      
+    }
+  }
 }
 </script>
 
 <style>
-#app {
-  font-family: "PingFang SC","Microsoft YaHei";
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
 </style>

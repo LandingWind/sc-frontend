@@ -9,9 +9,8 @@ import axios from "axios";
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 let config = {
-  // baseURL: process.env.baseURL || process.env.apiUrl || ""
-  // timeout: 60 * 1000, // Timeout
-  // withCredentials: true, // Check cross-site Access-Control
+  baseURL: "http://localhost:8080/api",
+  timeout: 60 * 1000 // Timeout
 };
 
 const _axios = axios.create(config);
@@ -39,7 +38,7 @@ _axios.interceptors.response.use(
   }
 );
 
-Plugin.install = function(Vue, options) {
+Plugin.install = function(Vue) {
   Vue.axios = _axios;
   window.axios = _axios;
   Object.defineProperties(Vue.prototype, {

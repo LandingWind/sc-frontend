@@ -1,6 +1,7 @@
 ## Select Class Frontend
 
 > zju 软件工程project 选课子系统
+>
 > 负责用户交互的前端项目
 
 #### 技术选型
@@ -16,7 +17,7 @@ mock —— 本地模拟数据
 #### serve
 
 ```bash
-vue ui
+vue serve
 ```
 
 
