@@ -1,4 +1,4 @@
-const basicStudent = {
+let basicStudent = {
     uid: '123',
     name: "林风",
     stuid: "317010xxxx",
@@ -14,10 +14,14 @@ const basicStudent = {
     email: "xxx@zju.edu.cn",
     mobile: 13333333333
 }
+let basicUser = {
+    password: "admin",
+    username: "admin"
+}
 export default {
     'POST /api/user/login': (req, res) => {
         const { password, username } = req.body;
-        if (password === 'admin' && username === 'admin') {
+        if (password === basicUser.password && username === basicUser.username) {
             return res.json({
                 user: basicStudent,
                 status: "login pass",
@@ -38,13 +42,34 @@ export default {
             })
         }
     },
-    'DELETE /api/user/:id': (req, res) => {
-        // console.log(req.params.id);
-        res.send({ status: 'ok', message: 'delete success!' });
+    'GET /api/user/getuserinfo': (req, res) => {
+        return res.json({
+            user: basicStudent,
+            code: 200
+        })
     },
-    'PUT /api/user/:id': (req, res) => {
-        // console.log(req.params.id);
-        // console.log(req.body);
-        res.send({ status: 'ok', message: 'update success！' });
+    'POST /api/user/updatebasicinfo': (req, res) => {
+        const currentUser = req.body;
+        return res.json({
+            user: Object.assign(basicStudent, currentUser),
+            code: 200
+        })
     },
+    'POST /api/user/updatepassword': (req, res) => {
+        const {
+            oldpassword,
+            newpassword
+        } = req.body;
+        if (oldpassword === basicUser.password) {
+            basicUser.password = newpassword;
+            return res.json({
+                code: 200
+            })
+        }
+        else return res.json({
+            msg: "旧密码不正确",
+            code: 4001
+        })
+    },
+
 }

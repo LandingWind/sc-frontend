@@ -29,7 +29,7 @@ export default new Vuex.Store({
     },
     async updateUser({ commit }) {
       const res = await axios.get("user/getuserinfo");
-      if (res.data.code === 0) {
+      if (res.data.code === 200) {
         commit("userStatus", res.data.user);
       } else {
         console.log("update userinfo fail!");

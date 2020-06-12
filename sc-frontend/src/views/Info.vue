@@ -106,7 +106,7 @@ export default {
     ...mapActions(["updateUser"]),
     getMyInfo: function() {
       const u = this.$store.state.user.currentUser;
-      this.currentUser = u;
+      this.currentUser = Object.assign({}, u);
     },
     handleMenu(index) {
       if (index === "1") {
@@ -133,7 +133,7 @@ export default {
         })
         .then(res => {
           console.log(res);
-          if (res.data.code === 0) {
+          if (res.data.code === 200) {
             this.$message({
               message: "已成功更换密码",
               type: "success"
