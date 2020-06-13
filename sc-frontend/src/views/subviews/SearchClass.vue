@@ -1,6 +1,6 @@
 <template>
   <div class="search-class">
-    <ClassBrief :dialogVisible="classBriefShow" />
+    <ClassBrief ref="classbrief" />
     <el-form ref="form" :inline="false" label-width="80px" size="small" class="conditionForm">
       <el-form-item label="课程名" prop="classname">
         <el-input v-model="conditions.classname"></el-input>
@@ -119,8 +119,7 @@ export default {
         }
       ],
       tableData: [],
-      selectedClassList: [],
-      classBriefShow: false
+      selectedClassList: []
     };
   },
   methods: {
@@ -131,7 +130,7 @@ export default {
         column,
         event
       );
-      this.classBriefShow = true;
+      this.$refs.classbrief.showDialog();
     },
     async getSelectedClass() {
       const { token, uid } = this.$store.state.user.currentUser;

@@ -1,6 +1,12 @@
 <template>
   <div class="selected-class">
-    <el-table :data="tableData" stripe class="margintop50 marginbottom100">
+    <ClassBrief ref="classbrief" />
+    <el-table
+      :data="tableData"
+      stripe
+      class="margintop50 marginbottom100"
+      @row-click="handleDetailClass"
+    >
       <el-table-column prop="id" label="课程代码"></el-table-column>
       <el-table-column prop="classname" label="课程名"></el-table-column>
       <el-table-column prop="teacher" label="授课教师"></el-table-column>
@@ -16,13 +22,27 @@
 </template>
 
 <script>
+import ClassBrief from "./ClassBrief";
+
 export default {
+  components: {
+    ClassBrief
+  },
   data() {
     return {
       tableData: []
     };
   },
   methods: {
+    handleDetailClass(row, column, event) {
+      console.log(
+        "handleDetailClass -> row, column, event",
+        row,
+        column,
+        event
+      );
+      this.$refs.classbrief.showDialog();
+    },
     async getSelectedClass() {
       const { token, uid } = this.$store.state.user.currentUser;
       await this.$axios
