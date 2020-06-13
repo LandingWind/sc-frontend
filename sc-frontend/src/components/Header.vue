@@ -16,6 +16,7 @@
           <!-- <el-tag size="small">{{this.getUserType}}</el-tag> -->
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="info">个人信息</el-dropdown-item>
+            <el-dropdown-item command="classlist">选课</el-dropdown-item>
             <el-dropdown-item command="loginout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -51,9 +52,13 @@ export default {
     gotoInfo() {
       this.$router.push("/info");
     },
+    gotoClassList() {
+      this.$router.push("/classlist");
+    },
     handleCommand(command) {
       if (command === "loginout") this.unlogin();
       if (command === "info") this.gotoInfo();
+      if (command === "classlist") this.gotoClassList();
     }
   },
   computed: {

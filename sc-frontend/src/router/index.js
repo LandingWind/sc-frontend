@@ -1,10 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from "../store/index";
+
 import Login from '../views/Login.vue'
 import About from '../views/About.vue'
 import Main from '../views/Main.vue'
 import Info from '../views/Info.vue'
+import ClassList from '../views/ClassList.vue'
+import Class from '../views/Class.vue'
+
 import axios from "../plugins/axios";
 import Auth from '../utils/auth'
 
@@ -39,6 +43,22 @@ const routes = [
     path: '/info',
     name: 'info',
     component: Info,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/classlist',
+    name: 'classlist',
+    component: ClassList,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/class/:id/detail',
+    name: 'class',
+    component: Class,
     meta: {
       requireAuth: true
     }
