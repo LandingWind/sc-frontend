@@ -1,3 +1,5 @@
+import { allClassList, selectedClassList } from './classlist'
+
 const basicStudent = {
     uid: '123',
     name: "林风",
@@ -18,38 +20,7 @@ let basicUser = {
     password: "admin",
     username: "admin"
 }
-const allClassList = [
-    {
-        id: "qwer12",
-        classname: "统筹学",
-        teacher: "汪鞅",
-        storage: 100,
-        selected: 40,
-    },
-    {
-        id: "qwer13",
-        classname: "高等代数",
-        teacher: "汪明",
-        storage: 140,
-        selected: 140,
-    },
-    {
-        id: "qwer14",
-        classname: "线性代数",
-        teacher: "李能",
-        storage: 200,
-        selected: 10,
-    },
-]
-const selectedClassList = [
-    {
-        id: "qwer14",
-        classname: "线性代数",
-        teacher: "李能",
-        storage: 200,
-        selected: 10,
-    },
-]
+const step = 2;
 export default {
     'POST /api/user/login': (req, res) => {
         const { password, username } = req.body;
@@ -105,11 +76,19 @@ export default {
     },
     'POST /api/class/list': (req, res) => {
         const {
-            conditions
+            conditions,
+            pagination
         } = req.body;
-        console.log("conditions", conditions)
+        console.log("pagination", pagination)
+        const {
+            index,
+            limit
+        } = pagination;
+        const start = (index - 1) * limit;
+        let end = index * limit;
+        if (end > allClassList.length) end = allClassList.length;
         return res.json({
-            classlist: allClassList,
+            classlist: allClassList.slice(start, end),
             code: 200
         })
     },
@@ -123,4 +102,25 @@ export default {
             code: 200
         })
     },
+    'POST /api/class/choose': (req, res) => {
+        const {
+            id,
+            uid
+        } = req.body;
+        return res.json({
+            code: 200
+        })
+    },
+    'GET /api/class/step': (req, res) => {
+        return res.json({
+            step: step,
+            code: 200
+        })
+    },
+    'GET /api/class/number': (req, res) => {
+        return res.json({
+            number: allClassList.length,
+            code: 200
+        })
+    }
 }

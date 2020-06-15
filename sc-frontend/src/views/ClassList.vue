@@ -14,10 +14,10 @@
           <div class="tabControl">
             <el-tabs v-model="activeTab" @tab-click="handleTabClick">
               <el-tab-pane label="查询课程" name="search">
-                  <SearchClass />
+                <SearchClass />
               </el-tab-pane>
               <el-tab-pane label="已选课程" name="selected">
-                  <SelectedClass />
+                <SelectedClass />
               </el-tab-pane>
             </el-tabs>
           </div>
@@ -32,6 +32,8 @@ import Header from "@/components/Header.vue";
 import Progress from "@/components/Progress.vue";
 import SearchClass from "./subviews/SearchClass";
 import SelectedClass from "./subviews/SelectedClass";
+import { mapActions } from "vuex";
+
 export default {
   components: {
     Header,
@@ -46,9 +48,27 @@ export default {
     };
   },
   methods: {
+    ...mapActions([
+      "pullClasslist",
+      "pullSelectedClasslist",
+      "pullClassNumber"
+    ]),
     handleTabClick(tab, event) {
       console.log(tab, event);
+    },
+    async getInfo() {
+      await this.$axios.get("class/step").then(res => {
+        if (res.data.code === 200) {
+          this.step = res.data.step;
+        }
+      });
     }
+  },
+  created() {
+    this.getInfo();
+    this.pullClassNumber();
+    this.pullClasslist();
+    this.pullSelectedClasslist();
   }
 };
 </script>

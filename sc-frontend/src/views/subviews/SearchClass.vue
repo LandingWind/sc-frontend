@@ -23,13 +23,7 @@
         <el-button type="primary" size="small" @click="submitSearch">搜索课程</el-button>
       </el-form-item>
     </el-form>
-    <el-table
-      :data="tableData"
-      border
-      stripe
-      class="margintop50 marginbottom100"
-      @row-click="handleDetailClass"
-    >
+    <el-table :data="classlist" border stripe class="margintop50" @row-click="handleDetailClass">
       <el-table-column prop="id" label="课程代码"></el-table-column>
       <el-table-column prop="classname" label="课程名"></el-table-column>
       <el-table-column prop="teacher" label="授课教师"></el-table-column>
@@ -37,10 +31,24 @@
       <el-table-column prop="selected" label="已选人数"></el-table-column>
       <el-table-column fixed="right" label="操作" width="100">
         <template slot-scope="scope">
-          <el-button @click="handleChooseClass(scope.row)" type="text" size="small">选课</el-button>
+          <el-button
+            v-if="scope.row.status==='unselected'"
+            @click="handleChooseClass(scope.row)"
+            type="text"
+            size="small"
+          >选课</el-button>
+          <el-button v-if="scope.row.status==='selected'" type="text" size="small" disabled>已选</el-button>
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination
+      class="margintop50 marginbottom100 aliginright"
+      background
+      layout="prev, pager, next"
+      :page-size="pagination.limit"
+      :total="classNumber"
+      @current-change="handlePageIndexChange"
+    ></el-pagination>
   </div>
 </template>
 
@@ -117,9 +125,7 @@ export default {
           label: "星期日",
           children: timesOptionsSec
         }
-      ],
-      tableData: [],
-      selectedClassList: []
+      ]
     };
   },
   methods: {
@@ -132,34 +138,33 @@ export default {
       );
       this.$refs.classbrief.showDialog();
     },
-    async getSelectedClass() {
-      const { token, uid } = this.$store.state.user.currentUser;
-      await this.$axios
-        .post("/class/selected", {
-          token,
-          uid
-        })
-        .then(res => {
-          if (res.data.code === 200) {
-            this.selectedClassList = res.data.classlist;
-          }
-        });
-    },
     async submitSearch() {
-      await this.$axios
-        .post("/class/list", {
-          conditions: this.conditions
-        })
-        .then(res => {
-          if (res.data.code === 200) {
-            this.tableData = res.data.classlist;
-          }
-        });
+      await this.$store.dispatch("pullClasslist");
     },
-    async handleChooseClass() {}
+    async handleChooseClass(row) {
+      const uid = this.$store.state.user.currrentUser.uid;
+      await this.$axios.post("class/choose", {
+        id: row.id,
+        uid
+      });
+      await this.$store.dispatch("pullSelectedClasslist");
+    },
+    async handlePageIndexChange(index) {
+      // console.log(index);
+      await this.$store.commit("classlistPaginationStatus", { index });
+      await this.$store.dispatch("pullClasslist");
+    }
   },
-  created() {
-    this.getSelectedClass();
+  computed: {
+    classlist() {
+      return this.$store.getters.processedClasslist;
+    },
+    classNumber() {
+      return this.$store.state.classNumber;
+    },
+    pagination() {
+      return this.$store.state.classlistPagination;
+    }
   }
 };
 </script>
@@ -176,5 +181,11 @@ export default {
 }
 .marginbottom100 {
   margin-bottom: 100px;
+}
+.aliginright {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
 }
 </style>

@@ -2,7 +2,7 @@
   <div class="selected-class">
     <ClassBrief ref="classbrief" />
     <el-table
-      :data="tableData"
+      :data="selectedClasslist"
       stripe
       class="margintop50 marginbottom100"
       @row-click="handleDetailClass"
@@ -29,9 +29,7 @@ export default {
     ClassBrief
   },
   data() {
-    return {
-      tableData: []
-    };
+    return {};
   },
   methods: {
     handleDetailClass(row, column, event) {
@@ -43,23 +41,19 @@ export default {
       );
       this.$refs.classbrief.showDialog();
     },
-    async getSelectedClass() {
-      const { token, uid } = this.$store.state.user.currentUser;
-      await this.$axios
-        .post("/class/selected", {
-          token,
-          uid
-        })
-        .then(res => {
-          if (res.data.code === 200) {
-            this.tableData = res.data.classlist;
-          }
-        });
-    },
-    async handleUnchooseClass() {}
+    async handleUnchooseClass(row) {
+      const uid = this.$store.state.user.currrentUser.uid;
+      await this.$axios.post("class/choose", {
+        id: row.id,
+        uid
+      });
+      await this.$store.dispatch("pullSelectedClasslist");
+    }
   },
-  created() {
-    this.getSelectedClass();
+  computed: {
+    selectedClasslist() {
+      return this.$store.state.selectedClasslist;
+    }
   }
 };
 </script>

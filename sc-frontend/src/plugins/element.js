@@ -18,7 +18,8 @@ import {
     Cascader,
     Table,
     TableColumn,
-    Dialog
+    Dialog,
+    Pagination
 } from 'element-ui'
 
 Vue.use(Button)
@@ -44,6 +45,7 @@ Vue.use(Cascader)
 Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Dialog)
+Vue.use(Pagination)
 
 Vue.prototype.$message = Message;
 
