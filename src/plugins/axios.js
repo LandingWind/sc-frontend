@@ -9,64 +9,52 @@ import axios from "axios";
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 let config = {
-  baseURL: process.env.NODE_ENV==='development' ? "http://localhost:8080/api" : 'http://testserver.joyinn.com/api',
+  baseURL: "http://localhost:8081/api",
   timeout: 60 * 1000 // Timeout
 };
-const myAxios = function (addconfig) {
-  const _axios = axios.create({ ...config, ...addconfig });
 
-  _axios.defaults.headers.post["Content-Type"] = "application/json";
-  _axios.defaults.headers.put["Content-Type"] = "application/json";
+const _axios = axios.create(config);
 
-  _axios.interceptors.request.use(
-    function (config) {
-      // Do something before request is sent
-      return config;
-    },
-    function (error) {
-      // Do something with request error
-      return Promise.reject(error);
-    }
-  );
+_axios.interceptors.request.use(
+  function(config) {
+    // Do something before request is sent
+    return config;
+  },
+  function(error) {
+    // Do something with request error
+    return Promise.reject(error);
+  }
+);
 
-  // Add a response interceptor
-  _axios.interceptors.response.use(
-    function (response) {
-      // Do something with response data
-      return response;
-    },
-    function (error) {
-      // Do something with response error
-      return Promise.reject(error);
-    }
-  );
-  return _axios;
-}
+// Add a response interceptor
+_axios.interceptors.response.use(
+  function(response) {
+    // Do something with response data
+    return response;
+  },
+  function(error) {
+    // Do something with response error
+    return Promise.reject(error);
+  }
+);
 
-const useAxios = myAxios();
-
-Plugin.install = function (Vue) {
-  Vue.axios = useAxios;
-  window.axios = useAxios;
+Plugin.install = function(Vue) {
+  Vue.axios = _axios;
+  window.axios = _axios;
   Object.defineProperties(Vue.prototype, {
     axios: {
       get() {
-        return useAxios;
+        return _axios;
       }
     },
     $axios: {
       get() {
-        return useAxios;
+        return _axios;
       }
     },
-    myAxios: {
-      get() {
-        return myAxios;
-      }
-    }
   });
 };
 
 Vue.use(Plugin)
 
-export default useAxios;
+export default Plugin;
