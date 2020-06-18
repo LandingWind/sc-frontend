@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from "../store/index";
-
+import Requirement from '../views/Requirement.vue'
+import CourseTable from '../views/CourseTable.vue'
 import Login from '../views/Login.vue'
 import About from '../views/About.vue'
 import Main from '../views/Main.vue'
@@ -39,6 +40,22 @@ const routes = [
     }
   },
   {
+    path: '/reqtable',
+    name: 'reqtable',
+    component: Requirement,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/courseTable',
+    name: 'courseTable',
+    component: CourseTable,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {  
     path: '/info',
     name: 'info',
     component: Info,

@@ -37,6 +37,38 @@ export default {
             });
         }
     },
+    'POST /api/requirement/info': (req, res) => {
+        const { major, grade } = req.body;
+        if(major == 'ComputerScience' && grade == '2017') {
+            return res.json([{
+                id: "CSP001",
+                score: 12.5,
+                commonScore: 2.5,
+                common: [
+                    {id:"000001", name:"commom", score:2.5}
+                ],
+                neccessaryScore: 5,
+                neccessary: [
+                    {id:"CS0001", name:"neccessary", score:5}
+                ],
+                optionalScore: 5,
+                optional: [
+                    {id:"CS0002", name:"optional", score:5}
+                ]
+            }]);
+        }
+        else{
+            return res.json(null);
+        }
+    },
+    'POST /api/user/setrequirement': (req, res) => {
+        res.send({ staus: 'ok', message: 'update success!' });
+    },
+    'POST /api/major/list': (req, res) => {
+        return res.json([
+            "ComputerScience", "Mathematics", "Physics"
+        ])
+    },
     'POST /api/user/info': (req, res) => {
         const { token } = req.body;
         if (token === "sdfsdfsdfdsf") {
