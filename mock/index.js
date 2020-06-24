@@ -166,5 +166,118 @@ export default {
             status:"Time modified",
             code: 200
         })
+    },
+
+    'GET /api/program/course': (req, res) => {
+        console.log(req)
+        return res.json({
+            "status": "显示成功！",
+            "courses": [
+                {
+                    "courseId": "211C0080",
+                    "courseName": "信息可视化",
+                    "credit": 2.0,
+                    "type": "必修",
+                    "status": "在培养方案中，未选课"
+                },
+                {
+                    "courseId": "211C0060",
+                    "courseName": "数字逻辑设计",
+                    "credit": 4.0,
+                    "type": "必修",
+                    "status": "在培养方案中，未选课"
+                },
+                {
+                    "courseId": "211B0010",
+                    "courseName": "离散数学及其应用",
+                    "credit": 4.0,
+                    "type": "必修",
+                    "status": "在培养方案中，未选课"
+                },
+                {
+                    "courseId": "21121330",
+                    "courseName": "操作系统",
+                    "credit": 5.0,
+                    "type": "必修",
+                    "status": "在培养方案中，未选课"
+                },
+                {
+                    "courseId": "211C0020",
+                    "courseName": "数据结构基础",
+                    "credit": 2.5,
+                    "type": "必修",
+                    "status": "在培养方案中，未选课"
+                },
+                {
+                    "courseId": "211C0010",
+                    "courseName": "面向对象程序设计",
+                    "credit": 2.5,
+                    "type": "选修",
+                    "status": "在培养方案中，未选课"
+                },
+                {
+                    "courseId": "121C0030",
+                    "courseName": "建筑材料",
+                    "credit": 2.5,
+                    "type": "选修",
+                    "status": "不在培养方案中"
+                },
+                {
+                    "courseId": "21186033",
+                    "courseName": "计算机组成",
+                    "credit": 4.5,
+                    "type": "选修",
+                    "status": "在培养方案中，未选课"
+                },
+                {
+                    "courseId": "211C0090",
+                    "courseName": "图像信息处理",
+                    "credit": 2.5,
+                    "type": "选修",
+                    "status": "在培养方案中，未选课"
+                },
+                {
+                    "courseId": "12195510",
+                    "courseName": "隧道工程",
+                    "credit": 1.5,
+                    "type": "公选",
+                    "status": "不在培养方案中"
+                },
+                {
+                    "courseId": "121C0040",
+                    "courseName": "结构力学Ⅰ",
+                    "credit": 3.0,
+                    "type": "公选",
+                    "status": "不在培养方案中"
+                },
+                {
+                    "courseId": "211C0070",
+                    "courseName": "面向信息技术的沟通技巧",
+                    "credit": 2.0,
+                    "type": "公选",
+                    "status": "在培养方案中，未选课"
+                },
+                {
+                    "courseId": "121C0050",
+                    "courseName": "结构力学Ⅱ",
+                    "credit": 2.0,
+                    "type": "公选",
+                    "status": "不在培养方案中"
+                }
+            ]
+        }
+        )
+    },
+
+    'PUT /api/program/course': (req, res) => {
+        return res.json({
+            status:"插入成功！"
+        })
+    },
+
+    'DELETE /api/program/course': (req, res) => {
+        return res.json({
+            status: "ok"
+        })
     }
 }

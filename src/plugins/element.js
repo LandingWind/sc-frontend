@@ -21,7 +21,8 @@ import {
     Dialog,
     Pagination,
     InputNumber,
-    DatePicker
+    DatePicker,
+    Popover
 } from 'element-ui'
 
 Vue.use(Button)
@@ -50,6 +51,7 @@ Vue.use(Dialog)
 Vue.use(Pagination)
 Vue.use(DatePicker)
 Vue.use(InputNumber)
+Vue.use(Popover)
 
 Vue.prototype.$message = Message;
 Vue.prototype.$msgbox = MessageBox;
