@@ -5,7 +5,7 @@ import Requirement from '../views/Requirement.vue'
 import CourseTable from '../views/CourseTable.vue'
 import Login from '../views/Login.vue'
 import About from '../views/About.vue'
-import Main from '../views/Main.vue'
+// import Main from '../views/Main.vue'
 import Info from '../views/Info.vue'
 import ClassList from '../views/ClassList.vue'
 
@@ -34,7 +34,7 @@ const routes = [
   {
     path: '/',
     name: 'main',
-    component: Main,
+    redirect: { name: 'classlist' },
     meta: {
       requireAuth: true
     }
@@ -55,7 +55,7 @@ const routes = [
       requireAuth: true
     }
   },
-  {  
+  {
     path: '/info',
     name: 'info',
     component: Info,
@@ -85,14 +85,15 @@ router.beforeEach((to, from, next) => {
     next:Function,进行管道中的一个钩子，如果执行完了，则导航的状态就是 confirmed；否则为false，终止导航。
   **/
   const token = localStorage.getItem("token") || null;
+  const uid = localStorage.getItem("uid") || null;
 
   if (to.matched.some(record => record.meta.requireAuth)) {
     if (!Auth.loggedIn(token)) {
       next("/login");
     } else {
       if (!store.state.user.isLogin) {
-        axios.post("/user/info", { token }).then(res => {
-          store.dispatch("setUser", res.data.user);
+        axios.post("/user/get/own/info", { uid }).then(res => {
+          store.dispatch("setUser", res.data);
           next();
         });
       } else next();

@@ -23,7 +23,6 @@ export default new Vuex.Store({
       if (user) {
         state.user.currentUser = user;
         state.user.isLogin = true;
-        localStorage.setItem("token", user.token);
       } else if (user === null) {
         state.user.currentUser = null;
         state.user.isLogin = false;
@@ -49,10 +48,12 @@ export default new Vuex.Store({
     processedClasslist(state) {
       let s = new Set();
       for (const item of state.selectedClasslist) {
-        s.add(item.id);
+        s.add(item.classId);
       }
+      console.log("s",s);
+      
       return state.classlist.map(item => {
-        if (s.has(item.id)) item.status = "selected"
+        if (s.has(item.id.toString())) item.status = "selected"
         else item.status = "unselected"
         return item;
       })
@@ -62,41 +63,25 @@ export default new Vuex.Store({
     setUser({ commit }, user) {
       commit("userStatus", user);
     },
-    async updateUser({ commit }) {
-      const res = await axios.get("user/getuserinfo");
-      if (res.data.code === 200) {
-        commit("userStatus", res.data.user);
-      } else {
-        console.log("update userinfo fail!");
-      }
+    async updateUser({ commit, state }) {
+      const res = await axios.post("/user/get/own/info", { uid: state.user.currentUser.uid });
+      commit("userStatus", res.data.user);
     },
     async pullClassNumber({ commit }) {
       const res = await axios.get("class/number");
       commit("classNumberStatus", res.data.number);
     },
-    async pullClasslist({ commit, state }, conditions, pagination) {
-      if (pagination === undefined) pagination = state.classlistPagination;
-      const res = await axios.post("class/list", {
-        conditions,
-        pagination
+    async pullClasslist({ commit }, conditions) {
+      // if (pagination === undefined) pagination = state.classlistPagination;
+      const res = await axios.post("/classes/search", {
+        ...conditions
       })
-      if (res.data.code === 200) {
-        commit("classlistStatus", res.data.classlist);
-        commit("classlistPaginationStatus", pagination);
-      } else {
-        console.log("pull classlist fail!");
-      }
+      commit("classlistStatus", res.data.classes);
+      // commit("classlistPaginationStatus", pagination);
     },
-    async pullSelectedClasslist({ commit, state }) {
-      const res = await axios.post('class/selected', {
-        uid: state.user.currentUser.uid,
-        token: state.user.currentUser.token
-      })
-      if (res.data.code === 200) {
-        commit("selectedClasslistStatus", res.data.classlist);
-      } else {
-        console.log("pull selected classlist fail!");
-      }
+    async pullSelectedClasslist({ commit }) {
+      const res = await axios.get('/classes/get_selected/2020/SECOND')
+      commit("selectedClasslistStatus", res.data.classes);
     },
   },
   modules: {

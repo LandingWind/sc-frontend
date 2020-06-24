@@ -56,18 +56,21 @@ export default {
     handleTabClick(tab, event) {
       console.log(tab, event);
     },
-    async getInfo() {
-      await this.$axios.get("class/step").then(res => {
-        if (res.data.code === 200) {
-          this.step = res.data.step;
-        }
-      });
+    // async getInfo() {
+    //   await this.$axios.get("class/step").then(res => {
+    //     if (res.data.code === 200) {
+    //       this.step = res.data.step;
+    //     }
+    //   });
+    // }
+    getInfo() {
+      this.step = 1;
     }
   },
   created() {
     this.getInfo();
-    this.pullClassNumber();
-    this.pullClasslist();
+    // this.pullClassNumber();
+    // this.pullClasslist();
     this.pullSelectedClasslist();
   }
 };

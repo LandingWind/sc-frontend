@@ -35,22 +35,26 @@ export default {
     handleLogin: function() {
       const { username, password } = this;
       this.$axios
-        .post("user/login", {
-          username,
+        .post("/session/login", {
+          uid: username,
           password
         })
         .then(res => {
-          const code = res.data.code;
-          if (code === 200) {
+          const { info, token, uid } = res.data;
+          if (info === "OK") {
             this.$message({
-              message: res.data.status,
+              message: "Login Success!",
               type: "success"
             });
-            this.setUser(res.data.user);
-            this.$router.push("/");
-          } else if (code === 403) {
+            localStorage.setItem("token", token);
+            localStorage.setItem("uid", uid);
+            this.myAxios().post("/user/get/own/info", { uid: uid }).then(res => {
+              this.setUser(res.data);
+              this.$router.push("/");
+            });
+          } else {
             this.$message({
-              message: res.data.status,
+              message: info,
               type: "error"
             });
           }
