@@ -16,6 +16,8 @@
           <!-- <el-tag size="small">{{this.getUserType}}</el-tag> -->
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="info">个人信息</el-dropdown-item>
+            <el-dropdown-item command="reqSet">设置培养方案</el-dropdown-item>
+            <el-dropdown-item command="courseTable">查看课表</el-dropdown-item>
             <el-dropdown-item command="classlist">选课</el-dropdown-item>
             <el-dropdown-item command="loginout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
@@ -55,9 +57,17 @@ export default {
     gotoClassList() {
       this.$router.push("/classlist");
     },
+    gotoReqSet() {
+      this.$router.push("/reqtable");
+    },
+    gotoCourseTable() {
+      this.$router.push("/courseTable");
+    },
     handleCommand(command) {
       if (command === "loginout") this.unlogin();
       if (command === "info") this.gotoInfo();
+      if (command === "reqSet") this.gotoReqSet();
+      if (command === "courseTable") this.gotoCourseTable();
       if (command === "classlist") this.gotoClassList();
     }
   },

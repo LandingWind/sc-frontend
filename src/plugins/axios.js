@@ -9,7 +9,7 @@ import axios from "axios";
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 let config = {
-  baseURL: process.env.NODE_ENV==='development' ? "http://localhost:8080/api" : 'http://testserver.joyinn.com/api',
+  baseURL: process.env.NODE_ENV==='development' ? "http://localhost:8081/api" : 'http://testserver.joyinn.com/api',
   timeout: 60 * 1000 // Timeout
 };
 const myAxios = function (addconfig) {

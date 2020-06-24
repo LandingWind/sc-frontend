@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import {
-    Button, Input, Row, Col, Message, Dropdown,
+    Button, Input, Row, Col, Message, Dropdown, MessageBox,
     DropdownMenu,
     DropdownItem,
     Tag,
@@ -19,7 +19,9 @@ import {
     Table,
     TableColumn,
     Dialog,
-    Pagination
+    Pagination,
+    InputNumber,
+    DatePicker
 } from 'element-ui'
 
 Vue.use(Button)
@@ -46,6 +48,11 @@ Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Dialog)
 Vue.use(Pagination)
+Vue.use(DatePicker)
+Vue.use(InputNumber)
 
 Vue.prototype.$message = Message;
-
+Vue.prototype.$msgbox = MessageBox;
+Vue.prototype.$alert = MessageBox.alert;
+Vue.prototype.$confirm = MessageBox.confirm;
+Vue.prototype.$prompt = MessageBox.prompt;

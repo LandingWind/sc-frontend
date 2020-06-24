@@ -8,6 +8,7 @@ import About from '../views/About.vue'
 import Main from '../views/Main.vue'
 import Info from '../views/Info.vue'
 import ClassList from '../views/ClassList.vue'
+import SetTime from '../views/SetTime.vue'
 
 import axios from "../plugins/axios";
 import Auth from '../utils/auth'
@@ -71,6 +72,14 @@ const routes = [
       requireAuth: true
     }
   },
+  {
+    path: '/manage',
+    name: 'manage',
+    component: SetTime,
+    meta: {
+      requireAuth: true
+    }
+  }
 ]
 
 const router = new VueRouter({

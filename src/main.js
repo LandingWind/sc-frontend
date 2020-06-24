@@ -5,8 +5,10 @@ import router from './router'
 import store from './store'
 import './plugins/element.js'
 import infiniteScroll from 'vue-infinite-scroll'
+import htmlToPdf from './utils/htmlToPdf'
 
 Vue.use(infiniteScroll)
+Vue.use(htmlToPdf)
 
 Vue.config.productionTip = false
 

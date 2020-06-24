@@ -42,18 +42,18 @@ export default {
         if(major == 'ComputerScience' && grade == '2017') {
             return res.json([{
                 id: "CSP001",
-                score: 12.5,
-                commonScore: 2.5,
+                credit: 12.5,
+                commonCredit: 2.5,
                 common: [
-                    {id:"000001", name:"commom", score:2.5}
+                    {id:"000001", name:"commom", credit:2.5}
                 ],
-                neccessaryScore: 5,
+                neccessaryCredit: 5,
                 neccessary: [
-                    {id:"CS0001", name:"neccessary", score:5}
+                    {id:"CS0001", name:"neccessary", credit:5}
                 ],
-                optionalScore: 5,
+                optionalCredit: 5,
                 optional: [
-                    {id:"CS0002", name:"optional", score:5}
+                    {id:"CS0002", name:"optional", credit:5}
                 ]
             }]);
         }
@@ -124,13 +124,9 @@ export default {
             code: 200
         })
     },
-    'POST /api/class/selected': (req, res) => {
-        const {
-            token,
-            uid
-        } = req.body;
+    'GET /api/classes/get_selected/2020/SECOND': (req, res) => {
         return res.json({
-            classlist: selectedClassList,
+            classes: selectedClassList,
             code: 200
         })
     },
@@ -152,6 +148,22 @@ export default {
     'GET /api/class/number': (req, res) => {
         return res.json({
             number: allClassList.length,
+            code: 200
+        })
+    },
+    'GET /api/selection_time/show': (req, res) => {
+        return res.json({timeList:[
+            {id:"0", "start":"2020-6-18 02:00", end:"2020-6-19 02:00"},
+            {id:"2", "start":"2020-6-18 02:00", end:"2020-6-19 02:00"},
+            {id:"3", "start":"2020-6-18 02:00", end:"2020-6-19 02:00"},
+            {id:"4", "start":"2020-6-18 02:00", end:"2020-6-19 02:00"}
+        ]})
+    },
+
+    'POST /api/selection_time/modify': (req, res) => {
+        console.log(req);
+        return res.json({
+            status:"Time modified",
             code: 200
         })
     }

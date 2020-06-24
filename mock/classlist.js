@@ -185,15 +185,17 @@ const allClassList = [
 const selectedClassList = [
     {
         id: "qwer14",
-        classname: "线性代数",
+        courseName: "线性代数",
         teacher: "李能",
+        timeSlot: "周三第1至2节",
         storage: 200,
         selected: 10,
     },
     {
         id: "qwer12",
-        classname: "统筹学",
+        courseName: "统筹学",
         teacher: "汪鞅",
+        timeSlot: "周一第1至2节,周一第6至8节",
         storage: 100,
         selected: 40,
     },

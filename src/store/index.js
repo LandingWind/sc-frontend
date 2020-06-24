@@ -8,7 +8,7 @@ export default new Vuex.Store({
   state: {
     user: {
       currentUser: null,
-      isLogin: false
+      isLogin: false,
     },
     classlist: [],
     classlistPagination: {
