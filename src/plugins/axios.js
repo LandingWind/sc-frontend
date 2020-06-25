@@ -9,7 +9,7 @@ import axios from "axios";
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 let config = {
-  baseURL: process.env.NODE_ENV==='development' ? "http://localhost:8081/api" : 'http://testserver.joyinn.com/api',
+  baseURL: process.env.NODE_ENV === 'mock' ? "http://localhost:8080/api" : 'http://sc-back.joyinn.top',
   timeout: 60 * 1000 // Timeout
 };
 const myAxios = function (addconfig) {
@@ -17,6 +17,9 @@ const myAxios = function (addconfig) {
 
   _axios.defaults.headers.post["Content-Type"] = "application/json";
   _axios.defaults.headers.put["Content-Type"] = "application/json";
+  if (localStorage.getItem("token")) {
+    _axios.defaults.headers["X-Auth-Token"] = localStorage.getItem("token");
+  }
 
   _axios.interceptors.request.use(
     function (config) {

@@ -36,7 +36,7 @@ serve -s dist
 ```bash
 # 构建image
 # version should be filled
-docker -t build scfrontend:(version) .
+docker build -t scfrontend:(version) .
 
 # 运行container
 # version should be filled

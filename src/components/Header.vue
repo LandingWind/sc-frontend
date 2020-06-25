@@ -16,10 +16,14 @@
           <!-- <el-tag size="small">{{this.getUserType}}</el-tag> -->
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="info">个人信息</el-dropdown-item>
-            <el-dropdown-item command="reqSet">设置培养方案</el-dropdown-item>
-            <el-dropdown-item command="courseTable">查看课表</el-dropdown-item>
+            <el-dropdown-item command="reqtable">培养方案</el-dropdown-item>
             <el-dropdown-item command="classlist">选课</el-dropdown-item>
-            <el-dropdown-item command="loginout">退出登录</el-dropdown-item>
+            <el-dropdown-item command="control" v-if="isAdmin">管理员控制</el-dropdown-item>
+            <el-dropdown-item
+              command="stuepxort"
+              v-if="isAdmin || isTeacher"
+            >导出学生列表</el-dropdown-item>
+            <el-dropdown-item command="loginout" divided>退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-col>
@@ -41,11 +45,12 @@ export default {
     return {};
   },
   methods: {
-    unlogin() {
+    async unlogin() {
       console.log("login out");
-
+      await this.$axios.post('/session/logout');
       this.$store.dispatch("setUser", null);
       localStorage.removeItem("token");
+      localStorage.removeItem("uid");
       this.$router.push("/login");
     },
     gotoHome() {
@@ -57,11 +62,8 @@ export default {
     gotoClassList() {
       this.$router.push("/classlist");
     },
-    gotoReqSet() {
+    gotoReqtable() {
       this.$router.push("/reqtable");
-    },
-    gotoCourseTable() {
-      this.$router.push("/courseTable");
     },
     handleCommand(command) {
       if (command === "loginout") this.unlogin();
@@ -69,6 +71,7 @@ export default {
       if (command === "reqSet") this.gotoReqSet();
       if (command === "courseTable") this.gotoCourseTable();
       if (command === "classlist") this.gotoClassList();
+      if (command === "reqtable") this.gotoReqtable();
     }
   },
   computed: {
@@ -79,7 +82,23 @@ export default {
       const { type } = this.$store.state.user.currentUser;
       if (type === "student") return "学生";
       if (type === "admin") return "管理员";
+      if (type === "teacher") return "教师";
       return "";
+    },
+    getUserTypeOri() {
+      return this.$store.state.user.currentUser.type;
+    },
+    isAdmin() {
+      const type = this.$store.state.user.currentUser.type;
+      return type==='System Administrator' || type==='Teaching Administrator';
+    },
+    isTeacher() {
+      const type = this.$store.state.user.currentUser.type;
+      return type==='Teaching Administrator' || type==='Teacher';
+    },
+    isStudent() {
+      const type = this.$store.state.user.currentUser.type;
+      return type==='Student';
     }
   }
 };

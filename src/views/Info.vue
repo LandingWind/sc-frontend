@@ -23,35 +23,29 @@
                       <el-form-item label="姓名" prop="name">
                         <el-input v-model="currentUser.name"></el-input>
                       </el-form-item>
-                      <el-form-item label="个人简介" prop="introduction">
-                        <el-input type="textarea" :rows="5" v-model="currentUser.introduction"></el-input>
+                      <el-form-item label="个人简介" prop="intro">
+                        <el-input type="textarea" :rows="5" v-model="currentUser.intro"></el-input>
                       </el-form-item>
-                      <el-form-item label="姓名" prop="stuid">
-                        <el-input v-model="currentUser.stuid"></el-input>
+                      <el-form-item label="学号" prop="uid">
+                        <el-input v-model="currentUser.uid" disabled></el-input>
                       </el-form-item>
                       <el-form-item label="性别" prop="gender">
                         <el-input v-model="currentUser.gender"></el-input>
                       </el-form-item>
-                      <el-form-item label="学级" prop="currentStage">
-                        <el-input v-model="currentUser.currentStage" disabled></el-input>
+                      <el-form-item label="学级" prop="year">
+                        <el-input v-model="currentUser.year" disabled></el-input>
                       </el-form-item>
-                      <el-form-item label="学制" prop="studyYear">
-                        <el-input v-model="currentUser.studyYear" disabled></el-input>
+                      <el-form-item label="学院" prop="department">
+                        <el-input v-model="currentUser.department" disabled></el-input>
                       </el-form-item>
-                      <el-form-item label="地址" prop="address">
-                        <el-input v-model="currentUser.address"></el-input>
-                      </el-form-item>
-                      <el-form-item label="学院" prop="college">
-                        <el-input v-model="currentUser.college" disabled></el-input>
-                      </el-form-item>
-                      <el-form-item label="专业" prop="major">
-                        <el-input v-model="currentUser.major" disabled></el-input>
+                      <el-form-item label="专业班级" prop="majorClass">
+                        <el-input v-model="currentUser.majorClass" disabled></el-input>
                       </el-form-item>
                       <el-form-item label="邮箱">
                         <el-input v-model="currentUser.email"></el-input>
                       </el-form-item>
-                      <el-form-item label="手机号" prop="mobile">
-                        <el-input v-model="currentUser.mobile"></el-input>
+                      <el-form-item label="手机号" prop="telephone">
+                        <el-input v-model="currentUser.telephone"></el-input>
                       </el-form-item>
                       <el-form-item>
                         <el-button type="primary" size="mini" @click="submitUpdateInfo">提交</el-button>
@@ -127,13 +121,14 @@ export default {
         return;
       }
       await this.$axios
-        .post("user/updatepassword", {
-          oldpassword,
-          newpassword
+        .post("/user/modify/pwd", {
+          uid: this.$store.state.user.currentUser.uid,
+          oldPwd: oldpassword,
+          newPwd: newpassword
         })
         .then(res => {
           console.log(res);
-          if (res.data.code === 200) {
+          if (res.data.status === "OK") {
             this.$message({
               message: "已成功更换密码",
               type: "success"
@@ -141,9 +136,8 @@ export default {
             // relogin
             this.$store.dispatch("setUser", null);
             localStorage.removeItem("token");
+            localStorage.removeItem("uid");
             this.$router.push("/login");
-          } else {
-            this.$message.error(res.data.msg);
           }
         })
         .catch(err => {
@@ -151,7 +145,7 @@ export default {
         });
     },
     async submitUpdateInfo() {
-      await this.$axios.post("user/updatebasicinfo", this.currentUser);
+      await this.$axios.post("/user/modify/info", this.currentUser);
       await this.updateUser();
       this.getMyInfo();
       this.$message({

@@ -11,7 +11,7 @@ const basicStudent = {
     college: "计算机学院",
     major: '计算机科学与技术',
     token: 'sdfsdfsdfdsf',
-    type: "student",
+    type: "admin",
     introduction: "hello world i like golang",
     email: "xxx@zju.edu.cn",
     mobile: 13333333333
